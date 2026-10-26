@@ -12,6 +12,7 @@ if (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 32) {
   process.exit(1);
 }
 const app = express();
+app.set("trust proxy", 2);
 app.disable("x-powered-by");
 app.use(express.json({ limit: "50kb" }));
 app.use(cookieParser());
