@@ -4,6 +4,7 @@ import { useCart } from "../context/CartContext";
 import { useProducts, categoriesOf } from "../api";
 import { useAuth } from "../context/AuthContext";
 import Brand from "./Brand";
+import RoarMark from "./RoarMark";
 
 export default function Navbar() {
   const { count } = useCart();
@@ -20,7 +21,7 @@ export default function Navbar() {
       <div className="top"><div className="marq">{msg + msg + msg + msg}</div></div>
       <header className="nav">
         <div className="wrap bar">
-          <Link to="/" aria-label="Fortune Barishal"><Brand /></Link>
+          <Link to="/" aria-label="Fortune Barishal"><Brand hdr /></Link>
           <nav className={open ? "links open" : "links"} onClick={() => setOpen(false)}>
             <Link to="/shop?tab=new">NEW IN</Link>
             <Link to="/shop?tab=best">BEST SELLERS 🔥</Link>
@@ -33,6 +34,7 @@ export default function Navbar() {
           {user ? <span className="who">{user.role === "admin" && <Link to="/admin" className="loginlink">ADMIN</Link>}@{user.username} <button onClick={logout}>LOGOUT</button></span> : <Link to="/login" className="loginlink">LOGIN</Link>}
           <Link to="/cart" className="cartbtn">CART <b>{count}</b></Link>
           <button className="burger" onClick={() => setOpen(!open)}>☰</button>
+          <RoarMark />
         </div>
       </header>
     </>
