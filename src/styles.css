@@ -221,3 +221,82 @@ footer{background:linear-gradient(180deg,#4d0c14,#3d0a11);border-top:4px solid v
 .fgrid .cicons{flex-wrap:nowrap;gap:8px}
 .fgrid a.ci{display:grid;place-items:center;margin:0;padding:0;width:40px;height:40px}
 .fgrid a.ci:hover{padding-left:0}
+
+/* =====================================================================
+   MOBILE / ALL-DEVICE FIXES (v2) - phones, small phones, landscape, tablets.
+   Desktop (>900px) is untouched.
+   ===================================================================== */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+
+/* NOTE: roar.css .stats leaks a box onto the hero stats; reset below on phones only (desktop unchanged) */
+@media(max-width:900px){
+  .hero{grid-template-columns:minmax(0,1fr)}
+  .hero>*{min-width:0}
+  .stats{flex-wrap:wrap;gap:18px 32px}
+  .hero h1{overflow-wrap:break-word}
+}
+@media(max-width:600px){
+  .hero{padding:34px 20px 24px;min-height:0;border-radius:22px;margin-top:14px}
+  .hero h1{margin:18px 0}
+  .hero p{font-size:15px;margin-bottom:22px}
+  .hbtn .btn{flex:1 1 130px;padding:13px 14px}
+  .stats{display:flex;background:none;border:0;border-radius:0;overflow:visible;margin-top:30px;gap:14px 26px}
+  .stats b{font-size:26px}
+  .orbit{height:260px;transform:scale(.6);margin:-30px 0}
+  .flash{padding:26px 20px;border-radius:22px;margin-top:40px}
+  .clock{gap:8px;width:100%}.clock div{flex:1;width:auto;height:84px}.clock b{font-size:34px}
+  h2{margin:40px 0 14px}
+  .head{gap:10px}.head h2{min-width:0}.va{white-space:nowrap;font-size:14px}
+  .perks{grid-template-columns:1fr 1fr;gap:10px}.perks>div{padding:14px;gap:10px;flex-direction:column;align-items:flex-start}.perks>div>b{font-size:22px}
+  .tiles{grid-template-columns:1fr 1fr;gap:10px}.tile{min-height:150px;padding:16px}.tile span{font-size:42px;top:12px;right:8px}.tile b{font-size:18px}
+  .stores{grid-template-columns:minmax(0,1fr)}.stores>div{padding:18px}
+  .ticker{margin:12px 0;font-size:12px;padding:11px 0}
+  .top{font-size:11px}
+  .crumbs{overflow-wrap:anywhere}
+  .actions .btn{flex:1 1 130px}
+  .row{align-items:stretch}.row select{width:100%}
+  .authbox{margin:18px auto}
+  .rules{grid-template-columns:1fr}
+  .okbox{padding:30px 20px 24px}.okbox h2{font-size:25px}
+  .copy{padding:16px 10px;font-size:12px}
+}
+/* header: keep logo, login, cart, menu and the Roar mark on ONE row on every phone width */
+@media(max-width:480px){
+  .bar{flex-wrap:nowrap;gap:6px}
+  .burger{padding:0 4px;font-size:22px;flex-shrink:0}
+  .bname{font-size:11px;letter-spacing:.06em}.brand{gap:5px}
+  .loginlink{padding:8px 2px;font-size:11px}
+  .cartbtn{padding:7px 10px;font-size:11px}
+  .roarmark{padding-left:8px}.roarmark img{height:26px}
+  .who{font-size:10px;gap:4px;min-width:0}.who .loginlink{padding:0}.who button{padding:4px 7px;font-size:10px}
+}
+@media(max-width:360px){
+  .bname{display:none}
+  .bar{padding:10px 10px}
+}
+/* footer on very small phones */
+@media(max-width:380px){.fgrid{grid-template-columns:minmax(0,1fr)}.fgrid>div:first-child,.fgrid>div:last-child{grid-column:auto}}
+/* use the REAL visible height on Android (address bar) for full-screen things */
+.splash{height:100vh;height:100dvh}
+.adm{min-height:100vh;min-height:100dvh}
+/* intro on phones / landscape */
+@media(max-width:600px){
+  .sl-stage{width:100%;padding:0 16px;gap:14px}
+  .splash-logo{height:min(34dvh,300px);max-width:72vw}
+  .sl-roar{gap:12px;max-width:100%}
+  .sl-roartext b{letter-spacing:.14em}
+  @keyframes roarIn{from{opacity:0;transform:translateX(60px);filter:blur(10px)}to{opacity:1;transform:none;filter:blur(0)}}
+}
+@media(max-height:500px) and (orientation:landscape){
+  .sl-stage{gap:8px}
+  .splash-logo{height:min(40dvh,150px)}
+  .sl-tigerimg{height:38px}.sl-roartext b{font-size:24px}.sl-roartext small{font-size:8px}
+  .sl-load{display:none}
+  .hero{min-height:0;padding:34px 28px}
+}
+/* tablets (601-900): nicer grids */
+@media(min-width:601px) and (max-width:900px){
+  .hero{padding:50px 36px;min-height:0}
+  .perks{grid-template-columns:1fr 1fr}
+  .roarmark{margin-left:0}
+}
