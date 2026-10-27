@@ -10,6 +10,7 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Roar from "./pages/Roar";
 import AdminLayout from "./pages/admin/AdminLayout";
 import Dashboard from "./pages/admin/Dashboard";
 import AdminProducts from "./pages/admin/Products";
@@ -21,11 +22,12 @@ export default function App() {
   const { pathname } = useLocation();
   useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
   const admin = pathname.startsWith("/admin"); // admin pages have their own layout
+  const roar = pathname.startsWith("/roar");   // the Roar page is full-screen with its own top bar
   return (
     <>
       <Splash />
-      {!admin && <Navbar />}
-      <main className={admin ? "" : "wrap"}>
+      {!admin && !roar && <Navbar />}
+      <main className={admin || roar ? "" : "wrap"}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
@@ -34,6 +36,7 @@ export default function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/roar" element={<Roar />} />
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="products" element={<AdminProducts />} />
@@ -43,7 +46,7 @@ export default function App() {
           <Route path="*" element={<p className="empty">Page not found. <Link to="/">Go home</Link></p>} />
         </Routes>
       </main>
-      {!admin && <Footer />}
+      {!admin && !roar && <Footer />}
     </>
   );
 }
