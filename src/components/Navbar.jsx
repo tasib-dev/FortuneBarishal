@@ -5,6 +5,7 @@ import { useProducts, categoriesOf } from "../api";
 import { useAuth } from "../context/AuthContext";
 import Brand from "./Brand";
 import RoarMark from "./RoarMark";
+import "../profile.css";
 
 export default function Navbar() {
   const { count } = useCart();
@@ -31,7 +32,7 @@ export default function Navbar() {
             </div>
           </nav>
           <form onSubmit={go} className="search"><input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search products…" /></form>
-          {user ? <span className="who">{user.role === "admin" && <Link to="/admin" className="loginlink">ADMIN</Link>}@{user.username} <button onClick={logout}>LOGOUT</button></span> : <Link to="/login" className="loginlink">LOGIN</Link>}
+          {user ? <span className="who">{user.role === "admin" && <Link to="/admin" className="loginlink">ADMIN</Link>}<Link to="/profile" className="whoname" title="My profile"><span className="whoav">{user.username[0]}</span><span className="whoun">@{user.username}</span></Link> <button onClick={logout}>LOGOUT</button></span> : <Link to="/login" className="loginlink">LOGIN</Link>}
           <Link to="/cart" className="cartbtn">CART <b>{count}</b></Link>
           <button className="burger" onClick={() => setOpen(!open)}>☰</button>
           <RoarMark />

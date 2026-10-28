@@ -7,7 +7,7 @@ export async function loadUser(req, res, next) {
     const t = req.cookies?.token;
     if (t) {
       const { id } = jwt.verify(t, process.env.JWT_SECRET);
-      const u = await one("SELECT id, email, username, role, banned FROM users WHERE id = $1", [id]);
+      const u = await one("SELECT id, email, username, role, banned, created_at FROM users WHERE id = $1", [id]);
       req.user = u && !u.banned ? u : null;
     }
   } catch { /* invalid token = logged out */ }

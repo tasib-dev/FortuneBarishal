@@ -1,3 +1,6 @@
+// Username rule (keep in sync with src/pages/Register.jsx): 5-20 chars, starts with a letter
+export const USERNAME_RE = /^[A-Za-z][A-Za-z0-9_]{4,19}$/;
+
 // Password rules (keep in sync with src/pages/Register.jsx)
 export function passwordError(pw, username = "") {
   if (pw.length < 8) return "Password must be at least 8 characters.";
@@ -18,7 +21,7 @@ export function validateRegister(b = {}) {
   const password = String(b.password || "");
   const confirm = String(b.confirmPassword || "");
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) || email.length > 254) errors.email = "Enter a valid email address.";
-  if (!/^[A-Za-z][A-Za-z0-9_]{2,19}$/.test(username)) errors.username = "3-20 characters: letters, numbers, underscore. Must start with a letter.";
+  if (!USERNAME_RE.test(username)) errors.username = "5-20 characters: letters, numbers, underscore. Must start with a letter.";
   const pe = passwordError(password, username);
   if (pe) errors.password = pe;
   if (password !== confirm) errors.confirmPassword = "Passwords do not match.";

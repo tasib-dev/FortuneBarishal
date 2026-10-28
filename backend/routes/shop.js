@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { query, tx } from "../db.js";
+import { requireAuth } from "../middleware/auth.js";
 
 export const toProduct = (p) => ({ id: p.id, name: p.name, category: p.category, price: p.price, old: p.old_price || 0,
   emoji: p.emoji || "🏅", image: p.image || "", desc: p.description || "", stock: p.stock, active: p.active });
@@ -42,4 +43,9 @@ router.post("/orders", async (req, res) => {
     console.error(e); res.status(500).json({ error: "Could not place the order. Please try again." });
   }
 });
+
+// Logged-in customer: their own orders, newest first
+router.get("/my-orders", requireAuth, async (req, res) =>
+  res.json(await query("SELECT code, items, delivery, total, status, district, created_at FROM orders WHERE user_id = $1 ORDER BY created_at DESC LIMIT 100", [req.user.id])));
+
 export default router;
