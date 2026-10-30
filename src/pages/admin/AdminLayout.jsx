@@ -8,7 +8,7 @@ export default function AdminLayout() {
   const { user, ready, logout } = useAuth();
   if (!ready) return <p className="empty">Loading…</p>;
   if (!user) return <Navigate to="/login" replace />;
-  if (user.role !== "admin") return <div className="empty"><h2>Admin access only</h2><p className="muted">Your account is not an admin.</p><Link to="/" className="btn">Back to shop</Link></div>;
+  if (user.role !== "admin" && user.role !== "creator") return <div className="empty"><h2>Admin access only</h2><p className="muted">Your account is not an admin or creator.</p><Link to="/" className="btn">Back to shop</Link></div>;
   return (
     <div className="adm">
       <aside>

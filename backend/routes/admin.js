@@ -69,13 +69,23 @@ router.put("/users/:id", async (req, res) => {
   const id = idOf(req); if (id === null) return res.status(404).json({ error: "User not found." });
   if (id === req.user.id) return res.status(400).json({ error: "You cannot change your own role or status." });
   const { role, banned } = req.body || {};
-  if (!["customer", "admin"].includes(role)) return res.status(400).json({ error: "Invalid role." });
+  if (!["customer", "admin", "creator"].includes(role)) return res.status(400).json({ error: "Invalid role." });
+  const target = await one("SELECT id, role FROM users WHERE id = $1", [id]);
+  if (!target) return res.status(404).json({ error: "User not found." });
+  const isCreator = req.user.role === "creator";
+  if (!isCreator) {
+    // admins can suspend/unsuspend, but can NOT change roles or touch a creator
+    if (target.role === "creator") return res.status(403).json({ error: "Only a creator can modify a creator." });
+    if (role !== target.role) return res.status(403).json({ error: "Only a creator can change user roles." });
+  }
   await query("UPDATE users SET role = $1, banned = $2 WHERE id = $3", [role, banned ? 1 : 0, id]);
   res.json({ ok: true });
 });
 router.delete("/users/:id", async (req, res) => {
   const id = idOf(req); if (id === null) return res.status(404).json({ error: "User not found." });
   if (id === req.user.id) return res.status(400).json({ error: "You cannot delete your own account." });
+  const target = await one("SELECT role FROM users WHERE id = $1", [id]);
+  if (target?.role === "creator" && req.user.role !== "creator") return res.status(403).json({ error: "Only a creator can delete a creator." });
   await query("DELETE FROM users WHERE id = $1", [id]); res.json({ ok: true });
 });
 

@@ -63,6 +63,12 @@ CREATE TABLE IF NOT EXISTS orders (
   status TEXT NOT NULL DEFAULT 'pending', created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );`);
 
+// Optional: set CREATOR_EMAIL in the environment (e.g. on Render) and that account becomes the creator on next start.
+if (process.env.CREATOR_EMAIL) {
+  const r = await pool.query("UPDATE users SET role = 'creator' WHERE LOWER(email) = LOWER($1) AND role != 'creator'", [process.env.CREATOR_EMAIL.trim()]);
+  if (r.rowCount) console.log("CREATOR_EMAIL: " + process.env.CREATOR_EMAIL + " is now a creator.");
+}
+
 // First run: put the placeholder products in so the shop isn't empty
 if (!(await one("SELECT 1 AS x FROM products LIMIT 1"))) {
   for (const p of [["Pro Cricket Bat","Cricket",8500,9800,20,"🏏"],["Leather Cricket Ball","Cricket",850,0,100,"🔴"],["Match Football Size 5","Football",2200,2600,40,"⚽"],

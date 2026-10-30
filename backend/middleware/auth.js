@@ -14,5 +14,9 @@ export async function loadUser(req, res, next) {
   next();
 }
 export const requireAuth = (req, res, next) => (req.user ? next() : res.status(401).json({ error: "Please log in." }));
+// "creator" = owner (full access, can change roles). "admin" = full access EXCEPT changing roles.
+export const STAFF_ROLES = ["admin", "creator"];
 export const requireAdmin = (req, res, next) =>
-  req.user?.role === "admin" ? next() : res.status(req.user ? 403 : 401).json({ error: "Admin access only." });
+  STAFF_ROLES.includes(req.user?.role) ? next() : res.status(req.user ? 403 : 401).json({ error: "Admin access only." });
+export const requireCreator = (req, res, next) =>
+  req.user?.role === "creator" ? next() : res.status(req.user ? 403 : 401).json({ error: "Creator access only." });

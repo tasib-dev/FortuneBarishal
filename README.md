@@ -33,5 +33,7 @@ Endpoints: POST /api/auth/register, POST /api/auth/login, POST /api/auth/logout,
 1. cd backend && npm install && npm run dev
 2. Register an account on the website, then:  npm run make-admin -- your@email.com   (inside backend/)
 3. Log out and log in again -> an ADMIN link appears in the navbar -> /admin
+4. Roles: customer, admin, creator. Creator has full access and is the only one who can change user roles; admin has everything else.
+   Make a creator:  npm run make-admin -- your@email.com creator   (or set CREATOR_EMAIL in the environment, e.g. on Render, and redeploy)
 Pages: Dashboard, Products (add/edit/delete/price/stock/photo), Orders (status), Users (role/suspend/delete).
 Product photos are saved in backend/uploads/ (served at /uploads/...).
