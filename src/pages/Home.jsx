@@ -4,6 +4,7 @@ import { useProducts, categoriesOf } from "../api";
 import { TABS } from "../data/products";
 import ProductCard from "../components/ProductCard";
 import Reveal from "../components/Reveal";
+import CollabBanner from "../components/CollabBanner";
 
 const perks = [["01", "Fast Delivery", "All over Bangladesh"], ["02", "Cash on Delivery", "Pay when you receive"], ["03", "100% Genuine", "Authentic products only"], ["04", "Easy Returns", "7-day exchange policy"]];
 const brands = ["CRICKET", "FOOTBALL", "BADMINTON", "FITNESS", "RUNNING", "CYCLING", "TRAINING", "OUTDOOR"];
@@ -25,6 +26,7 @@ export default function Home() {
   const shown = products.filter(TABS[tab].test).slice(0, 4);
   return (
     <>
+      <CollabBanner />
       <section className="hero" onMouseMove={move}>
         <div className="hcopy">
           <span className="pill">● NEW SEASON 2026</span>

@@ -1,0 +1,93 @@
+/* "Fortune x Roar" collab banner at the top of the Home page (src/components/CollabBanner.jsx) */
+.cb-wrap{position:sticky;z-index:25;width:100vw;margin-left:calc(50% - 50vw)}
+.cb-gap{width:100%;pointer-events:none}
+.cb{--p:0;--lgb:150px;--lgs:34px;--lg:calc(var(--lgb) - (var(--lgb) - var(--lgs)) * var(--p));
+  position:absolute;left:0;right:0;top:0;overflow:hidden;color:#fff;
+  background:linear-gradient(120deg,#12060a 0%,#3d0a11 42%,#0a1f16 100%);
+  box-shadow:0 10px 30px #0000003a}
+.cb:after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;
+  background:linear-gradient(90deg,#c1272d,#ff6b75,#2fb36f,#c1272d);background-size:200% 100%;animation:cbEdge 5s linear infinite}
+@keyframes cbEdge{to{background-position:-200% 0}}
+
+/* animated background (always running) */
+.cb-bg{position:absolute;inset:0;pointer-events:none}
+.cb-grid{position:absolute;inset:-48px;background:linear-gradient(#ffffff10 1px,transparent 1px),linear-gradient(90deg,#ffffff10 1px,transparent 1px);background-size:44px 44px;animation:gm 6s linear infinite;
+  mask-image:radial-gradient(ellipse at 50% 50%,#000,transparent 78%);-webkit-mask-image:radial-gradient(ellipse at 50% 50%,#000,transparent 78%)}
+.cb-glow{position:absolute;width:46vw;height:46vw;max-width:620px;max-height:620px;border-radius:50%;filter:blur(60px);opacity:.5;animation:cbDrift 9s ease-in-out infinite alternate}
+.cb-glow.g1{left:-8%;top:-60%;background:#c1272d}
+.cb-glow.g2{right:-8%;bottom:-70%;background:#0b8f56;animation-delay:-4s}
+@keyframes cbDrift{to{transform:translate(70px,40px) scale(1.15)}}
+.cb-scan{position:absolute;inset:0;background:linear-gradient(100deg,transparent 42%,#ffffff17 50%,transparent 58%);background-size:250% 100%;animation:cbSweep 6s linear infinite}
+@keyframes cbSweep{from{background-position:130% 0}to{background-position:-130% 0}}
+.cb-dot{position:absolute;bottom:-10px;border-radius:50%;opacity:0;box-shadow:0 0 8px currentColor;animation:cbUp linear infinite}
+@keyframes cbUp{0%{transform:translateY(0);opacity:0}15%{opacity:.9}100%{transform:translateY(-520px);opacity:0}}
+
+/* layout row: Fortune | middle | Roar */
+.cb-in{position:relative;z-index:2;height:100%;max-width:1240px;margin:auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;gap:clamp(10px,3vw,40px)}
+.cb:not(.ready) .cb-in{opacity:0}
+.cb-side{display:flex;align-items:center;gap:calc(var(--p) * 12px);flex-shrink:0;color:#fff}
+.cb-name{display:flex;flex-direction:column;line-height:1;letter-spacing:.14em;font-family:Arial,sans-serif;overflow:hidden;white-space:nowrap;
+  max-width:calc(var(--p) * 150px);opacity:min(1,max(0,calc((var(--p) - .55) * 3)))}
+.cb-name b{font-weight:800;font-size:15px}.cb-name small{font-size:9px;letter-spacing:.3em;margin-top:4px;color:#ffb3b8}
+.cb-name.right{text-align:right}.cb-name.right b{font-size:17px}
+.cb-logo{position:relative;height:var(--lg);width:auto;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cb-logo img{height:var(--lg);width:auto;max-width:none;max-height:none;flex-shrink:0;position:relative;z-index:2;filter:drop-shadow(0 0 14px #2fb36f88) drop-shadow(0 0 34px #c1272d66);animation:cbFloat 4s ease-in-out infinite}
+.cb-logo.tiger img{filter:invert(1) drop-shadow(0 0 10px #c1272d) drop-shadow(0 0 30px #c1272d88);animation-delay:-2s}
+@keyframes cbFloat{50%{transform:translateY(-6px) scale(1.03)}}
+.cb-logo:before{content:"";position:absolute;left:50%;top:50%;width:calc(var(--lg) * 1.35);height:calc(var(--lg) * 1.35);margin:calc(var(--lg) * -.675) 0 0 calc(var(--lg) * -.675);border-radius:50%;
+  background:conic-gradient(from 0deg,transparent,#ff3d47 20%,transparent 45%,#2fb36f 70%,transparent);filter:blur(14px);opacity:.55;animation:cbSpin 5s linear infinite}
+.cb-logo:after{content:"";position:absolute;left:50%;top:50%;width:calc(var(--lg) * 1.1);height:calc(var(--lg) * 1.1);margin:calc(var(--lg) * -.55) 0 0 calc(var(--lg) * -.55);border-radius:50%;border:1px solid #ffffff66;animation:cbPing 2.8s ease-out infinite}
+.cb-r .cb-logo:after{animation-delay:-1.4s}
+@keyframes cbSpin{to{transform:rotate(360deg)}}
+@keyframes cbPing{from{transform:scale(.8);opacity:.9}to{transform:scale(1.9);opacity:0}}
+
+/* middle: big text (fades out on scroll) + marquee (fades in on scroll) */
+.cb-mid{position:relative;flex:1;min-width:0;height:100%;display:grid;place-items:center}
+.cb-big{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;
+  opacity:max(0,calc(1 - var(--p) * 2.4));transform:translateY(calc(var(--p) * -28px)) scale(calc(1 - var(--p) * .12))}
+.cb-eye{font-size:12px;letter-spacing:.42em;color:#9af0c3;font-weight:700}
+.cb-title{display:flex;align-items:center;justify-content:center;gap:clamp(8px,1.6vw,22px);font-weight:700;font-size:clamp(34px,5.4vw,78px);line-height:1;letter-spacing:-.03em}
+.cb-title span{background:linear-gradient(90deg,#fff,#ffd0d3,#fff,#9af0c3,#fff);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sh 6s linear infinite}
+.cb-x{font-style:normal;font-weight:400;color:#ff6b75;text-shadow:0 0 22px #ff3d47,0 0 50px #c1272d;animation:cbPulse 2s ease-in-out infinite}
+@keyframes cbPulse{50%{transform:scale(1.35) rotate(90deg);color:#6ee7a8;text-shadow:0 0 22px #2fb36f,0 0 50px #0b8f56}}
+.cb-beam{position:relative;width:min(86%,520px);height:2px;background:#ffffff22;border-radius:2px;overflow:hidden}
+.cb-beam i{position:absolute;top:0;bottom:0;width:90px;background:linear-gradient(90deg,transparent,#ff6b75,#fff,#6ee7a8,transparent);animation:cbBeam 2.4s linear infinite}
+.cb-beam i:nth-child(2){animation-delay:-.8s}.cb-beam i:nth-child(3){animation-delay:-1.6s}
+@keyframes cbBeam{from{left:-90px}to{left:100%}}
+.cb-sub{max-width:480px;font-size:14px;line-height:1.55;color:#f1cfd2}
+
+.cb-mq{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);overflow:hidden;white-space:nowrap;
+  opacity:min(1,max(0,calc((var(--p) - .5) * 3)));
+  mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.cb-track{display:inline-flex;animation:cbMq 26s linear infinite}
+@keyframes cbMq{to{transform:translateX(-50%)}}
+.cb-item{display:inline-flex;align-items:center;gap:14px;padding-right:26px;font-size:13px;letter-spacing:.22em;font-weight:700}
+.cb-item b{font-weight:700}.cb-item i{font-style:normal;color:#ff6b75;font-size:18px;text-shadow:0 0 12px #ff3d47}
+.cb-item em{font-style:normal;color:#9af0c3}.cb-item u{text-decoration:none;color:#6ee7a8}
+
+.cb-hint{position:absolute;left:0;right:0;bottom:12px;z-index:2;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:10px;letter-spacing:.4em;color:#ffffffaa;
+  opacity:max(0,calc(1 - var(--p) * 5))}
+.cb-hint i{width:1px;height:22px;background:linear-gradient(#fff,transparent);animation:cbHint 1.6s ease-in-out infinite}
+@keyframes cbHint{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* entrance (plays once the opening intro is over) */
+.cb.ready .cb-f{animation:cbInL 1.1s cubic-bezier(.2,.8,.2,1) both}
+.cb.ready .cb-r{animation:cbInR 1.1s cubic-bezier(.2,.8,.2,1) .15s both}
+.cb.ready .cb-big{animation:cbInUp 1s ease .35s both}
+@keyframes cbInL{from{opacity:0;transform:translateX(-140px) scale(.6);filter:blur(10px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes cbInR{from{opacity:0;transform:translateX(140px) scale(.6);filter:blur(10px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes cbInUp{from{opacity:0;filter:blur(8px)}}
+
+@media(max-width:900px){.cb{--lgb:110px}}
+@media(max-width:600px){
+  .cb{--lgb:64px;--lgs:28px}
+  .cb-in{padding:0 12px;gap:8px}
+  .cb-eye{font-size:9px;letter-spacing:.28em}
+  .cb-title{flex-direction:column;gap:2px;font-size:28px}
+  .cb-x{font-size:22px;line-height:.8}
+  .cb-sub{font-size:11px;max-width:200px}
+  .cb-item{font-size:11px;letter-spacing:.16em}
+  .cb-name{display:none}
+  .cb-hint{display:none}
+}
+@media(max-width:380px){.cb-sub{display:none}}
