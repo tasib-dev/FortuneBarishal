@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 //  1) Fortune Barishal logo pulses in the middle with a loading bar
 //  2) the ROAR tiger roars in from the right with "POWERED BY ROAR"
 //  3) both logos fly to the header corners (Fortune = left, Roar = right) and stay there
+//  4) then onDone() fires, which is when the "Fortune Family" intro slides open (see App.jsx / Intro.jsx)
 // Change SPLASH_MS to make the intro longer/shorter, FLY_MS for the speed of the flight.
 const SPLASH_MS = 4400;
 const FLY_MS = 1100;
@@ -33,7 +34,7 @@ function flyTo(wrap, targetId) {
   return true;
 }
 
-export default function Splash() {
+export default function Splash({ onDone }) {
   const [phase, setPhase] = useState("show"); // show -> fly (or out) -> gone
   const fortuneRef = useRef(null);
   const roarRef = useRef(null);
@@ -46,6 +47,7 @@ export default function Splash() {
       root.classList.remove("intro-on");
       document.body.style.overflow = "";
       setPhase("gone");
+      onDone && onDone(); // lets the app know the logos have landed (the intro slides start now)
     };
     const t1 = setTimeout(() => {
       const a = flyTo(fortuneRef.current, "hdr-fortune");

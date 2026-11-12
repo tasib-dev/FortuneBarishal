@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Routes, Route, Link, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Splash from "./components/Splash";
+import Intro from "./components/Intro";
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 import Product from "./pages/Product";
@@ -18,15 +19,21 @@ import AdminProducts from "./pages/admin/Products";
 import AdminOrders from "./pages/admin/Orders";
 import AdminUsers from "./pages/admin/Users";
 
+const INTRO_DELAY_MS = 500; // pause so the logos are seen landing before the slides appear
+
 // ADD NEW PAGES: create src/pages/Name.jsx, import it here, add a <Route> below.
 export default function App() {
   const { pathname } = useLocation();
   useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
   const admin = pathname.startsWith("/admin"); // admin pages have their own layout
   const roar = pathname.startsWith("/roar");   // the Roar page is full-screen with its own top bar
+  // the intro slides start a moment after the splash logos have landed in the header corners
+  const [introReady, setIntroReady] = useState(false);
+  const onSplashDone = () => setTimeout(() => setIntroReady(true), INTRO_DELAY_MS);
   return (
     <>
-      <Splash />
+      <Splash onDone={onSplashDone} />
+      {introReady && !admin && !roar && <Intro />}
       {!admin && !roar && <Navbar />}
       <main className={admin || roar ? "" : "wrap"}>
         <Routes>
