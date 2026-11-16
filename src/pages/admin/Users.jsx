@@ -22,8 +22,8 @@ export default function Users() {
           <tbody>{list.map((u) => { const self = u.id === me.id; const locked = !isCreator && u.role === "creator"; return (
             <tr key={u.id}>
               <td><b>@{u.username}</b> {self && <em className="offtag">YOU</em>}</td><td>{u.email}</td>
-              <td>{isCreator
-                ? <select disabled={self} value={u.role} onChange={(e) => update(u, { role: e.target.value })}><option value="customer">Customer</option><option value="admin">Admin</option><option value="creator">Creator</option></select>
+              <td>{!self && !locked
+                ? <select value={u.role} onChange={(e) => update(u, { role: e.target.value })}><option value="customer">Customer</option><option value="admin">Admin</option>{isCreator && <option value="creator">Creator</option>}</select>
                 : <span style={{ textTransform: "capitalize" }}>{u.role}</span>}</td>
               <td><span className={"st " + (u.banned ? "cancelled" : "delivered")}>{u.banned ? "Suspended" : "Active"}</span></td>
               <td>{fmt(u.created_at)}</td>
